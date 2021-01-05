@@ -13,6 +13,22 @@ function login(id,success){
     connection.end();
 }
 
+// 查询所有词汇
+    function findAllWord(success){
+        const connection = dbUtil.createConnection();
+        const sql = 'select * from word';
+        connection.connect();
+        connection.query(sql,function(error,result){
+            if(error == null){
+                success(result);
+            }else{
+                throw Error('查询错误'+ error)
+            }
+        })
+        connection.end();
+    }
+    
+
 //查所有列表信息
 function findAllMessageList(id,success){
     const connection = dbUtil.createConnection();
@@ -47,6 +63,7 @@ function registe(user,success){
 module.exports = {
     login,
     registe,
-    findAllMessageList
+    findAllMessageList,
+    findAllWord
     
 }

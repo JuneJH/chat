@@ -19,7 +19,12 @@ function login(userInfo, callback) {
     })
 
 };
+function findAllWord(callback) {
+    userDao.findAllWord(function (result) {
+         callback(result);
+    })
 
+};
 //注册
 function registe(userInfo,callback){
     const path = Math.floor(Math.random()*13)
@@ -34,5 +39,6 @@ function registe(userInfo,callback){
 
 module.exports = {
     login,
-    registe
+    registe,
+    findAllWord
 }

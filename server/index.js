@@ -70,20 +70,6 @@ function isCheckoutMessage(message, socket) {
             socket.broadcast.emit("message", message);
         }
     })
-
-    // request({
-    //     url:"https://aip.baidubce.com/rest/2.0/solution/v1/text_censor/v2/user_defined",
-
-
-    // }, (err, resp, body) => {
-    //     if (!err) {
-
-
-    //        console.log("请求百度",body)
-    //     } else {
-    //         throw Error('请求错误', err)
-    //     }
-    // })
 }
 // 最长公共子序列
 

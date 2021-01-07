@@ -46,7 +46,7 @@
         <a-row class="chat-title">{{chatTitle}}</a-row>
         <a-row class="chat-content">
           <a-row v-for="item in messageList" :key="item.id">
-            <a-row class="content-left-item" v-if="item.uid != userInfo.uid">
+            <a-row class="content-left-item" v-if="item.uid !== userInfo.data.id">
               <a-col :span="4" class="header">
                 <a-avatar :size="30" :src="item.header" />
               </a-col>
@@ -222,7 +222,6 @@ export default {
           description: str,
           style:{
             color:'red',
-            
           }
         });
       }
@@ -260,11 +259,11 @@ export default {
     },
     //  发送一条消息
     sendContentHandle() {
-      var myDate = new Date();
+      const myDate = new Date();
       const msg = {
         id: ++this.messagesID,
-        uid: this.userInfo.uid,
-        header: this.userInfo.headPath,
+        uid: this.userInfo.data.id,
+        header:"http://121.36.51.141:9527/" + this.userInfo.data.headerImg,
         time: "",
         date: myDate.toLocaleString(),
         content: this.messageContent
@@ -275,6 +274,8 @@ export default {
       this.messageList.push(msg);
       this.messageContent = "";
       this.io.emit("send", msg);
+      console.log("this.userInfo",this.userInfo)
+      console.log("this.messageList",this.messageList)
     },
     changeChatHandler(title) {
       this.chatTitle = title;
@@ -291,8 +292,8 @@ export default {
       this.drawerVisible = false;
       const userInfo = this.$store.state.userinfo;
       this.userInfo = userInfo;
-      this.selfHeader = userInfo.headPath;
-      this.messagesID = +userInfo.uid + 10000000;
+      this.selfHeader = "http://121.36.51.141:9527/" + userInfo.data.headerImg;
+      this.messagesID = +userInfo.data.id + 10000000;
     }
   }
 };
@@ -398,11 +399,10 @@ export default {
             background-color: #fff;
             word-wrap: break-word;
             word-break: break-all;
-            margin: 20px 0;
             padding: 15px 10px;
             border-radius: 5px;
             box-shadow: 0px 0px 0px 1px 2px #eee;
-            margin-top: 5px;
+            margin: 5px 0 20px;
             position: relative;
             &::before {
               content: "";

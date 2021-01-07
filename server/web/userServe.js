@@ -10,6 +10,14 @@ async function login(userInfo) {
         return err.response.data;
     }
 };
+async function register(userInfo) {
+    try {
+        const result = await axios.post("http://121.36.51.141:9527/register", userInfo);
+        return result.data;
+    }catch (err) {
+        return err.response.data;
+    }
+};
 
 
 function findAllWord(callback) {
@@ -32,6 +40,6 @@ function registe(userInfo,callback){
 
 module.exports = {
     login,
-    registe,
+    register,
     findAllWord
 }

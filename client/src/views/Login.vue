@@ -36,12 +36,12 @@
       <!-- 注册 -->
       <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules" layout="inline" style>
         <a-form-model-item has-feedback prop="username">
-          <a-input v-model.number="ruleForm.username" placeholder="昵称">
+          <a-input v-model="ruleForm.username" placeholder="昵称">
             <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)"/>
           </a-input>
         </a-form-model-item>
         <a-form-model-item has-feedback prop="pass">
-          <a-input v-model="ruleForm.pass" type="password" autocomplete="off" placeholder="密码">
+          <a-input v-model="ruleForm.password" type="password" autocomplete="off" placeholder="密码">
             <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)"/>
           </a-input>
         </a-form-model-item>
@@ -56,6 +56,18 @@
           </a-input>
         </a-form-model-item>
 
+        <a-form-model-item has-feedback prop="mobile">
+          <a-input v-model="ruleForm.mobile" placeholder="电话号码">
+            <a-icon slot="prefix" type="mobile" style="color:rgba(0,0,0,.25)"/>
+          </a-input>
+        </a-form-model-item>
+
+        <a-form-model-item has-feedback prop="email">
+          <a-input v-model="ruleForm.email" placeholder="邮箱">
+            <a-icon slot="prefix" type="mail" style="color:rgba(0,0,0,.25)"/>
+          </a-input>
+        </a-form-model-item>
+
         <a-form-model-item>
           <a-button type="primary" @click="submitForm('ruleForm')">注册</a-button>
           <a-button style="margin-left: 10px" @click="resetForm('ruleForm')">清空</a-button>
@@ -67,28 +79,36 @@
 <script>
 export default {
   created() {
-    this.io.on("logined", data => {
-      console.log("发送请求后")
-      if (data.status == 0) {
+    this.io.on("login", data => {
+      if (data.code !== 200) {
         this.$message.error(data.msg);
-      } else if (data.status == 1) {
+      } else if (data.code === 200) {
         window.sessionStorage.setItem('userinfo', JSON.stringify(data));
         this.$store.commit('setUserinfo', data);
         this.$message.info("登录成功");
         this.onClose();
       }
     });
+    this.io.on("register",data=>{
+      if(data.code === 200){
+        this.$message.error(`你好！${data.data.username} 欢迎使用`);
+        this.formInline.name = data.data.username;
+      }else{
+        Object.keys(data.data).forEach(err=>{
+          this.$message.error(data.data[err].join(","),1);
+        })
+      }
+    })
   },
 
   props: ["drawerVisible"],
   data() {
-    let checkPending;
     let checkAge = (rule, value, callback) => {
-      clearTimeout(checkPending);
-      if (!value) {
-        return callback(new Error("请输入昵称"));
+      if (value === "") {
+         callback(new Error("请输入昵称"));
+      }else{
+        callback();
       }
-
     };
     let validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -103,7 +123,7 @@ export default {
     let validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("再次输入密码"));
-      } else if (value !== this.ruleForm.pass) {
+      } else if (value !== this.ruleForm.password) {
         callback(new Error("两次密码不一致"));
       } else {
         callback();
@@ -111,16 +131,18 @@ export default {
     };
     return {
       formInline: {
-        user: "202001",
-        password: "123456"
+        user: "Mia",
+        password: "@@juhong123"
       },
       ruleForm: {
-        pass: "",
         checkPass: "",
-        username: ""
+        username: "",
+        password: "",
+        mobile:"",
+        email:"",
       },
       rules: {
-        pass: [{validator: validatePass, trigger: "change"}],
+        password: [{validator: validatePass, trigger: "change"}],
         checkPass: [{validator: validatePass2, trigger: "change"}],
         username: [{validator: checkAge, trigger: "change"}]
       },
@@ -139,9 +161,13 @@ export default {
       this.io.emit("login", this.formInline);
     },
     submitForm(formName) {
+      console.log("run1")
       this.$refs[formName].validate(valid => {
+        console.log("run2")
+
         if (valid) {
-          this.io.emit("registe", this[formName])
+          console.log("提交注册前")
+          this.io.emit("register", this[formName])
         } else {
           this.$message.error("请填写完整");
           return false;

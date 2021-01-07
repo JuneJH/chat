@@ -6,7 +6,7 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 // 引入soceketio
 import SocketIO from "socket.io-client"
-const socket = SocketIO(`ws://121.36.51.141:9527`);
+const socket = SocketIO(`ws://127.0.0.1:9527`);
 
 
 

@@ -1,24 +1,17 @@
 const userDao = require('../dao/userDao');
-function login(userInfo, callback) {
-    userDao.login(userInfo.user, function (result) {
-        if (result.length == 0) {
-            // 获取初始化所有内容
-            callback({
-                status: 0,
-                msg: "用户不存在，请注册"
-            });
-        } else if (result[0].password === userInfo.password) {
-            result[0].status = 1;
-            callback(result[0]);
-        } else {
-            callback({
-                status: 0,
-                msg: "用户密码不正确"
-            });
-        }
-    })
+const axios = require("axios");
 
+async function login(userInfo) {
+    try {
+        const result = await axios.post("http://121.36.51.141:9527/login", {username: userInfo.user, password: userInfo.password});
+        result.data.data.authorization = result.headers.authorization
+        return result.data;
+    }catch (err) {
+        return err.response.data;
+    }
 };
+
+
 function findAllWord(callback) {
     userDao.findAllWord(function (result) {
          callback(result);

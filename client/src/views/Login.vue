@@ -1,34 +1,35 @@
 <template>
   <div>
     <a-drawer
-      title="登录/注册"
-      placement="top"
-      :visible="drawerVisible"
-      :maskClosable="true"
-      :closable="false"
+        title="登录/注册"
+        placement="top"
+        :visible="drawerVisible"
+        :maskClosable="true"
+        :closable="false"
     >
       <a-form-model
-        layout="inline"
-        :model="formInline"
-        @submit="handleSubmit"
-        @submit.native.prevent
+          layout="inline"
+          :model="formInline"
+          @submit="handleSubmit"
+          @submit.native.prevent
       >
         <a-form-model-item>
           <a-input v-model="formInline.user" placeholder="用户ID">
-            <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)"/>
           </a-input>
         </a-form-model-item>
         <a-form-model-item>
           <a-input v-model="formInline.password" type="password" placeholder="密码">
-            <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)"/>
           </a-input>
         </a-form-model-item>
         <a-form-model-item>
           <a-button
-            type="primary"
-            html-type="submit"
-            :disabled="formInline.user === '' || formInline.password === ''"
-          >登录</a-button>
+              type="primary"
+              html-type="submit"
+              :disabled="formInline.user === '' || formInline.password === ''"
+          >登录
+          </a-button>
         </a-form-model-item>
       </a-form-model>
       <div class="slice-line"></div>
@@ -36,22 +37,22 @@
       <a-form-model ref="ruleForm" :model="ruleForm" :rules="rules" layout="inline" style>
         <a-form-model-item has-feedback prop="username">
           <a-input v-model.number="ruleForm.username" placeholder="昵称">
-            <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="user" style="color:rgba(0,0,0,.25)"/>
           </a-input>
         </a-form-model-item>
         <a-form-model-item has-feedback prop="pass">
           <a-input v-model="ruleForm.pass" type="password" autocomplete="off" placeholder="密码">
-            <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)"/>
           </a-input>
         </a-form-model-item>
         <a-form-model-item has-feedback prop="checkPass">
           <a-input
-            v-model="ruleForm.checkPass"
-            type="password"
-            autocomplete="off"
-            placeholder="再次输入密码"
+              v-model="ruleForm.checkPass"
+              type="password"
+              autocomplete="off"
+              placeholder="再次输入密码"
           >
-            <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)" />
+            <a-icon slot="prefix" type="lock" style="color:rgba(0,0,0,.25)"/>
           </a-input>
         </a-form-model-item>
 
@@ -67,7 +68,7 @@
 export default {
   created() {
     this.io.on("logined", data => {
-       console.log("发送请求后")
+      console.log("发送请求后")
       if (data.status == 0) {
         this.$message.error(data.msg);
       } else if (data.status == 1) {
@@ -119,13 +120,13 @@ export default {
         username: ""
       },
       rules: {
-        pass: [{ validator: validatePass, trigger: "change" }],
-        checkPass: [{ validator: validatePass2, trigger: "change" }],
-        username: [{ validator: checkAge, trigger: "change" }]
+        pass: [{validator: validatePass, trigger: "change"}],
+        checkPass: [{validator: validatePass2, trigger: "change"}],
+        username: [{validator: checkAge, trigger: "change"}]
       },
       layout: {
-        labelCol: { span: 4 },
-        wrapperCol: { span: 14 }
+        labelCol: {span: 4},
+        wrapperCol: {span: 14}
       }
     };
   },
@@ -140,9 +141,9 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          this.io.emit("registe",this[formName])
+          this.io.emit("registe", this[formName])
         } else {
-         this.$message.error("请填写完整");
+          this.$message.error("请填写完整");
           return false;
         }
       });
@@ -160,6 +161,7 @@ export default {
   height: 10px;
   border-top: 1px solid #ddd;
   position: relative;
+
   &::before {
     content: "or";
     position: absolute;
@@ -170,6 +172,7 @@ export default {
     font-size: 26px;
     left: 30%;
     color: #eee;
+
     &:hover {
       color: sandybrown;
     }

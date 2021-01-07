@@ -3,33 +3,41 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
 const userServe = require("./web/userServe")
-const path = require("path")
-let makeUser = [];
+const UserList = require("./onlineUser")
+const userList = new UserList();
 server.listen(9527);
-console.log("开启一个服务");
 app.use(express.static("./dist"));
+const s = [];
 io.on('connection', (socket) => {
-    console.log("有一个连接")
+    console.log("有一个连接");
     // 登录
-    socket.on('login', (data) => {
-        if (makeUser.includes(data.user)) {
-            socket.emit("logined", {
-                status: 0,
-                msg: "该用户已经登录，已在线"
-            })
+    socket.on('login', async (data) => {
+        const result = await userServe.login(data);
+        const d = result.data;
+        if (result.code === 200) {
+            const isUser = userList.isUser(result.data.username);
+            if (isUser) {
+                userList.remove(result.data.username);
+                socket.emit("logined", {
+                    status: 0,
+                    msg: "该用户已经登录,系统以强制其下线,请重新登录"
+                })
+            } else {
+                userList.save(d);
+                socket.emit("logined", result);
+            }
         } else {
-            makeUser.push(data.user)
-            userServe.login(data, result => {
-                socket.emit("logined", result)
-            });
+            console.log("登录失败");
+            socket.emit("logined", result);
         }
-
     });
+
     // 登出
     socket.on("logout", data => {
-        makeUser = makeUser.filter(ele => ele != data)
+        // makeUser = makeUser.filter(ele => ele != data)
         console.log(data)
     })
+
     // 注册
     socket.on("registe", data => {
         userServe.registe(data, result => {
@@ -51,7 +59,7 @@ function isCheckoutMessage(message, socket) {
         const result = [];
         let isHit = false;
         for (let i = 0; data[i].wcontent && i < data.length; i++) {
-            let temp = { wordType: data[i].wname, hits: [] };
+            let temp = {wordType: data[i].wname, hits: []};
             data[i].wcontent.split("&").forEach(ele => {
                 if (text.includes(ele)) {
                     temp.hits.push(ele);
@@ -64,16 +72,17 @@ function isCheckoutMessage(message, socket) {
             temp.hits.length && result.push(temp);
         }
         if (isHit) {
-            socket.emit("checkResult", { result, message })
+            socket.emit("checkResult", {result, message})
 
         } else {
             socket.broadcast.emit("message", message);
         }
     })
 }
+
 // 最长公共子序列
 
-var longestCommonSubsequence = function (text1, text2) {
+const longestCommonSubsequence = function (text1, text2) {
     let t1Len = text1.length;
     let t2Len = text2.length;
     const dp = new Array(t1Len + 1);
@@ -94,4 +103,3 @@ var longestCommonSubsequence = function (text1, text2) {
 
     return dp[t1Len][t2Len]
 };
-

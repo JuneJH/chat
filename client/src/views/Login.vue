@@ -131,8 +131,8 @@ export default {
     };
     return {
       formInline: {
-        user: "Mia",
-        password: "@@juhong123"
+        user: "",
+        password: ""
       },
       ruleForm: {
         checkPass: "",
@@ -157,16 +157,11 @@ export default {
       this.$emit("onClose");
     },
     handleSubmit(e) {
-      console.log("点击登录")
       this.io.emit("login", this.formInline);
     },
     submitForm(formName) {
-      console.log("run1")
       this.$refs[formName].validate(valid => {
-        console.log("run2")
-
         if (valid) {
-          console.log("提交注册前")
           this.io.emit("register", this[formName])
         } else {
           this.$message.error("请填写完整");

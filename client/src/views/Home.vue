@@ -4,7 +4,6 @@
       <a-col :span="1" class="login-container">
         <div class="heder-img">
           <a-avatar :size="36" icon="user" :src="selfHeader" />
-          <!-- <img src="../assets/header/1.jpg" alt="" style="width:100%;height:100%;border-radius:50%"> -->
         </div>
         <div class="setting-list">
           <a-icon class="modify-btn" @click="loginHandler" type="login" style="color:green" />
@@ -121,30 +120,6 @@ const friendList = [
     header:
       "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2698168715,411094115&fm=26&gp=0.jpg"
   }
-  // {
-  //   id: 22,
-  //   nickname: "学习前端工作群",
-  //   date: "2020/5/5",
-  //   time: "16:33:25",
-  //   lastNews: "前端工程师的工作范围在什么位置，工资薪酬",
-  //   header: "../assets/header/1.jpg"
-  // },
-  // {
-  //   id: 33,
-  //   nickname: "球迷",
-  //   date: "2020/5/5",
-  //   time: "16:33:25",
-  //   lastNews: "今年的欧洲杯大概会取消了，今年没什么球",
-  //   header: "../assets/header/1.jpg"
-  // },
-  // {
-  //   id: 44,
-  //   nickname: "罗纳尔多",
-  //   date: "2020/5/5",
-  //   time: "16:33:25",
-  //   lastNews: "去腥上空的飞机卢卡斯",
-  //   header: "../assets/header/1.jpg"
-  // }
 ];
 const messageList = [];
 export default {
@@ -155,12 +130,6 @@ export default {
       this.friendList[0].lastNews = data.content;
       this.friendList[0].time = data.date.slice(10);
     });
-    //  id: ++this.messagesID,
-    //         uid: this.userInfo.uid,
-    //         header: this.userInfo.headPath,
-    //         time: "",
-    //         date: myDate.toLocaleString(),
-    //         content: this.messageContent
     this.io.on("checkResult", data => {
       let str = "";
       data.result.forEach(ele => {

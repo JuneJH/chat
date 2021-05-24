@@ -65,5 +65,4 @@ module.exports = {
     registe,
     findAllMessageList,
     findAllWord
-    
 }

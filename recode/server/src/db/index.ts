@@ -12,5 +12,4 @@ async function test(){
         console.error('连接数据库错误', error);
       }
 }
-
 export default sequelize;

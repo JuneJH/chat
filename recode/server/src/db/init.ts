@@ -9,4 +9,4 @@ async function asyncData() {
     await Message.sync({ force: true });
     console.log("模型表刚刚(重新)创建！");
 }
-asyncData();
+// asyncData();

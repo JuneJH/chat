@@ -12,7 +12,7 @@ export async function findAll(id:any) {
             id,
         }
     })
-    return result.toString;
+    return result.map((item:any)=>item.dataValues);
 }
 
 export async function update(room:any,id:any) {

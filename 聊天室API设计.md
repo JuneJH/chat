@@ -1,3 +1,38 @@
 # 聊天室API设计
 
 > 基于HTTP请求 socket
+
+## 1. 登录
+
+url:/api/login
+
+参数
+
+| 参数     | 类型   | 备注   |
+| -------- | ------ | ------ |
+| username | string | 用户名 |
+| password | string | 密码   |
+
+响应
+
+
+
+## 2.获取聊天房间
+
+url:/api/getRoom
+
+参数:无
+
+响应
+
+| 字段 | 类型 | 备注 |
+| ---- | ---- | ---- |
+
+## 3. 获取房间消息
+
+url:/api/getMessage/:room_id
+
+
+
+
+

@@ -3,8 +3,9 @@ import sequelize from '../db/index';
 
 const Room = sequelize.define("room",{
     id:{
+        type:DataTypes.UUID,
         primaryKey:true,
-        type:DataTypes.UUID
+        defaultValue:DataTypes.UUIDV4
     },
     room_name:DataTypes.STRING,
     create_person:DataTypes.STRING,

@@ -1,5 +1,6 @@
 import Message from '../models/Message';    
 
+// TODO 验证数据是否正确
 export  async function add(msg:any) {
     const result =await Message.create(msg);
     const res = await result.save();

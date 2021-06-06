@@ -1,5 +1,6 @@
 import User2Room from '../models/User2Room';    
 
+// TODO 验证数据是否正确
 export  async function add(map:any) {
     const result =await User2Room.create(map);
     const res = await result.save();

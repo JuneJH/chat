@@ -1,5 +1,5 @@
 import Room from '../models/Room';    
-
+// TODO 验证数据是否正确
 export  async function add(room:any) {
     const result =await Room.create(room);
     const res = await result.save();

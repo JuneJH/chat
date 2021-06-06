@@ -1,5 +1,6 @@
 import User from '../models/User';    
 
+// TODO 验证数据是否正确
 export  async function register(user:any) {
     const result =await User.create(user);
     const res = await result.save();

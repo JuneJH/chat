@@ -9,6 +9,7 @@ const Room = sequelize.define("room",{
     },
     room_name:DataTypes.STRING,
     create_person:DataTypes.STRING,
+    create_person_id:DataTypes.UUID,
     room_avatar:DataTypes.STRING,
 })
 export default Room;

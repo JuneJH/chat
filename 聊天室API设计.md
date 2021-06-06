@@ -18,8 +18,20 @@
 
 ### 2. websocket
 
+```js
 
-## 1. 注册
+    {
+        from:来自谁
+        to:是否@
+        to_room_id:发送给那个房间
+        content:消息内容
+    }
+
+```
+
+## http接口部分
+
+### 1. 注册
 
 url:/user/register
 method:POST
@@ -38,7 +50,7 @@ method:POST
 | phone    | string | 电话号码        |
 
 
-## 2. 登录
+### 2. 登录
 
 url:/user/login
 method:GET
@@ -52,7 +64,7 @@ method:GET
 
 响应
 
-## 3. 创建房间
+### 3. 创建房间
 
 url:/api/room/add
 method:POST
@@ -65,7 +77,7 @@ method:POST
 | room_avatar      | string | 房间头像 |
 
 
-## 4.通过用户Id获取聊天房间
+### 4.通过用户Id获取聊天房间
 
 url:/api/getRoom4userId
 method:GET
@@ -77,7 +89,7 @@ method:GET
 
 响应
 
-## 5.通过房间ID获取用户列表
+### 5.通过房间ID获取用户列表
 
 url:/api/getUser4roomId
 method:GET
@@ -88,7 +100,7 @@ method:GET
 | ------- | ------ | ------ |
 | room_id | string | 房间ID |
 
-## 6. 获取房间历史消息
+### 6. 获取房间历史消息
 
 url:/api/getMessage/:room_id
 mehode:GET
@@ -99,6 +111,25 @@ mehode:GET
 | ---- | ------ | ---------- |
 | page | number | 当前页码   |
 | size | number | 当前页容量 |
+
+## websocket部分
+
+### 1. 获取当前房间所在线用户
+
+事件名称: users_list
+
+### 2. 用户上线
+
+事件名称: user_all_in
+
+### 3. 用户下线
+
+事件名称: user_all_out
+
+### 4. 发送消息
+
+### 5. 接受消息
+
 
 
 
